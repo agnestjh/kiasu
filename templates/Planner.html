@@ -1,0 +1,156 @@
+{% extends 'Navi_and_footer_template.html' %}
+{% block body %}
+    <style> { font-size: 14px; font-family: Arial, Helvetica, sans-serif; }</style>
+    <title>Planner</title>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.material.mobile.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kendo.cdn.telerik.com/2017.3.1026/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.3.1026/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.3.1026/js/kendo.timezones.min.js"></script>
+<style>
+.k-edge .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view:hover>.k-link, .k-edge .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view>.k-link, .k-ff .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view:hover>.k-link, .k-ff .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view>.k-link, .k-ie11 .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view:hover>.k-link, .k-ie11 .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view>.k-link, .k-safari .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view:hover>.k-link, .k-safari .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view>.k-link, .k-webkit .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view:hover>.k-link, .k-webkit .k-scheduler-toolbar>ul.k-scheduler-views>li.k-current-view>.k-link {
+    color: #fff;
+    min-width: 20px;
+    margin-top: 500px;
+}
+#example {
+    max-width: 75%;
+    float: right;
+    margin-right:40px;
+}
+</style>
+
+
+<div id="example">
+
+        <div id="people">
+
+    <div id="scheduler"></div>
+</div>
+<script>
+$(function() {
+    $("#scheduler").kendoScheduler({
+        date: new Date("2018/2/16"),
+        startTime: new Date("2018/2/16 07:00 AM"),
+        height: 600,
+        views: [
+
+            "month",
+            "agenda",
+            { type: "timeline", eventHeight: 50}
+        ],
+        timezone: "Etc/UTC",
+        dataSource: {
+            batch: true,
+            transport: {
+                read: {
+                    url: "https://demos.telerik.com/kendo-ui/service/tasks",
+                    dataType: "jsonp"
+                },
+                update: {
+                    url: "https://demos.telerik.com/kendo-ui/service/tasks/update",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: "https://demos.telerik.com/kendo-ui/service/tasks/create",
+                    dataType: "jsonp"
+                },
+                destroy: {
+                    url: "https://demos.telerik.com/kendo-ui/service/tasks/destroy",
+                    dataType: "jsonp"
+                },
+                parameterMap: function(options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return {models: kendo.stringify(options.models)};
+                    }
+                }
+            },
+            schema: {
+                model: {
+                    id: "taskId",
+                    fields: {
+                        taskId: { from: "TaskID", type: "number" },
+                        title: { from: "Title", defaultValue: "No title", validation: { required: true } },
+                        start: { type: "date", from: "Start" },
+                        end: { type: "date", from: "End" },
+                        startTimezone: { from: "StartTimezone" },
+                        endTimezone: { from: "EndTimezone" },
+                        description: { from: "Description" },
+                        recurrenceId: { from: "RecurrenceID" },
+                        recurrenceRule: { from: "RecurrenceRule" },
+                        recurrenceException: { from: "RecurrenceException" },
+                        ownerId: { from: "OwnerID", defaultValue: 1 },
+                        isAllDay: { type: "boolean", from: "IsAllDay" }
+                    }
+                }
+            },
+            filter: {
+                logic: "or",
+                filters: [
+                    { field: "ownerId", operator: "eq", value: 1 },
+                    { field: "ownerId", operator: "eq", value: 2 }
+                ]
+            }
+        },
+        resources: [
+            {
+                field: "ownerId",
+                title: "Reason",
+                dataSource: [
+                    { text: "Travelling", value: 1, color: "#f8a398" },
+                    { text: "Payments", value: 2, color: "#51a0ed" },
+                    { text: "Other", value: 3, color: "#56ca85" }
+                ]
+            }
+        ]
+    });
+
+    $("#people :checkbox").change(function(e) {
+        var checked = $.map($("#people :checked"), function(checkbox) {
+            return parseInt($(checkbox).val());
+        });
+
+        var scheduler = $("#scheduler").data("kendoScheduler");
+
+        scheduler.dataSource.filter({
+            operator: function(task) {
+                return $.inArray(task.ownerId, checked) >= 0;
+            }
+        });
+    });
+});
+</script>
+<style>
+
+.k-nav-current > .k-link span + span {
+    max-width: 200px;
+}
+
+
+.k-scheduler-toolbar{background-color:#4CAF50;}
+.k-gantt-toolbar .k-button, .k-gantt>.k-header .k-link, .k-gantt>.k-header li, .k-grid .k-header .k-button, .k-scheduler .k-header .k-button, .k-scheduler .k-header .k-link, .k-scheduler .k-header li, .km-pane-wrapper .k-header .k-button {
+    color: #fff;
+    background-color: #3f51b500;
+    border-color: #3f51b505;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.k-autocomplete, .k-draghandle, .k-dropdown-wrap, .k-grid-header, .k-grouping-header, .k-header, .k-numeric-wrap, .k-pager-wrap, .k-panelbar .k-tabstrip-items .k-item, .k-picker-wrap, .k-progressbar, .k-state-highlight, .k-tabstrip-items .k-item, .k-textbox, .km-pane-wrapper>.km-pane>.km-view>.km-content {
+    background-image: none;
+    background-image: none,-webkit-gradient(linear,left top,left bottom,from(false));
+    background-image: none,-webkit-linear-gradient(top,false);
+    background-image: none,linear-gradient(to bottom,false);
+    background-position: 50% 50%;
+    background-color: #4CAF50;
+}
+.k-scheduler-monthview .k-hidden, .k-scheduler-monthview .k-scheduler-table td {
+    height: 80px;
+    text-align: right;
+    cursor: pointer;
+}
+
+</style>
+{% endblock %}
+

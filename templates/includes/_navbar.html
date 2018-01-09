@@ -1,0 +1,164 @@
+
+<head>
+<style>
+body{
+	margin: 0px;
+	display: inline; }
+
+.sidenav {    height: 100%;
+        clear: right;
+    background: linear-gradient(0deg,rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url(http://lbd-react.creative-tim.com/static/media/sidebar-4.7bc259fd.jpg);
+    height: -webkit-fill-available;
+    width: 250px;
+    overflow: auto;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    float: left;
+}
+
+
+.sidenav a {
+    padding: 20px 8px 6px 16px;
+    margin-top:5px;
+    text-decoration: none;
+    font-family:  "Helvetica Neue", Helvetica;
+    font-weight:bold;
+    text-transform: uppercase;
+    font-size: 15px;
+    color: white;
+    display: block;
+}
+
+.sidenav a:hover {
+	background-color:rgba(141, 146, 126,0.3);
+    radius:30px;
+}
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    font-size: 28px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+.navbarheader {
+text-align:center;
+color:white;
+}
+
+
+.dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+    outline: none;
+    color: white;
+    background-color: inherit;
+}
+
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+
+
+.show {
+    display: block;
+}
+
+.affix-top,.affix{
+    position: static;
+}
+
+@media (min-width: 992px) {
+
+  #sidenav.affix-top {
+  position: static;
+  }
+
+  #sidenav.affix {
+  position: fixed;
+  top: 100px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="sidenav">
+<h1 class=navbarheader>Kiasu Leh</h1><hr>
+
+    <div class="dropdown">
+     <a button class="dropbtn" onclick="myFunction()"><img src="static/Tiffany/hotel_img/Nav_bar/images/profileicon.png" width='23px' height='23px'>	Your Profile </a>
+    </button>
+    <div class="dropdown-content" id="myDropdown">
+      <a href="/User_Profile">Update profile</a>
+      <a href="/password">Change password</a>
+    </div>
+  </div>
+
+    <a href="/Home" ><img src='static/Tiffany/hotel_img/Nav_bar/images/homeicon.png'width="23px" height="23px" >	Home Page </a>
+    <a href="/Expenses(setlimit)"><img src="static/Tiffany/hotel_img/Nav_bar/images/spendingicon.png" width='25px' height='25px'> Expenses</a>
+    <a href="/saving"><img src="static/Tiffany/hotel_img/Nav_bar/images/savingicon.png" width='25px' height='25px'> Saving</a>
+     <a href="/Planner"><img src="static/Tiffany/hotel_img/Nav_bar/images/calendaricon.png" width='25px' height='25px'> Planner</a>
+    <a href="/promotion"><img src="static/Tiffany/hotel_img/Nav_bar/images/promo.png" width='25px' height='25px'>Promotion</a>
+    <a href="/redemption"><img src="static/Tiffany/hotel_img/Nav_bar/images/incentiveicon.png" width="25px" height="25px">Redemption</a>
+
+
+
+
+
+</div>
+<script>
+    function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
+  }
+}
+$(function () {
+    var sidebar = $('.sidebar');
+    var top = sidebar.offset().top - parseFloat(sidebar.css('margin-top'));
+
+    $(window).scroll(function (event) {
+      var y = $(this).scrollTop();
+      if (y >= top) {
+        sidebar.addClass('fixed');
+      } else {
+        sidebar.removeClass('fixed');
+      }
+    });
+});
+
+</script>
+</body>
